@@ -6,8 +6,6 @@ GitHub Project Description (for your repo)  > A clean and minimal gas price trac
 
 This is a React-based (Next.js) gas tracker dashboard that lets users view current gas prices on multiple blockchains and simulate estimated transaction costs in USD — all in a clean UI powered by Zustand.
 
-![Gas Tracker Screenshot](https://via.placeholder.com/800x400?text=Gas+Tracker+UI+Preview)
-
 ---
 
 ## 📌 Features
