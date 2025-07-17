@@ -101,3 +101,109 @@ MIT License © 2025 Palaksh Rastogi
 git add README.md
 git commit -m "Add project README"
 git push
+
+
+CODING
+=== package.json ===
+{
+ "name": "gas_tracker",
+ "version": "1.0.0",
+ "private": true,
+ "scripts": {
+ "dev": "next dev",
+ "build": "next build",
+ "start": "next start"
+ },
+ "dependencies": {
+ "next": "13.4.19",
+ "react": "18.2.0",
+ "react-dom": "18.2.0",
+ "zustand": "^4.5.2"
+ }
+}
+
+=== next.config.js ===
+module.exports = { reactStrictMode: true };
+
+=== pages/index.js ===
+import { useState } from 'react';
+import Head from 'next/head';
+import create from 'zustand';
+const useStore = create((set) => ({
+ gasPrices: {
+ ethereum: 50,
+ polygon: 30,
+ arbitrum: 20,
+ },
+ usdPrice: 3000,
+ setGasPrices: (newPrices) => set({ gasPrices: newPrices }),
+ setUSDPrice: (newPrice) => set({ usdPrice: newPrice }),
+}));
+export default function Home() {
+ const gasPrices = useStore((state) => state.gasPrices);
+ const usdPrice = useStore((state) => state.usdPrice);
+ const [amountETH, setAmountETH] = useState(0.1);
+ const gasLimit = 21000;
+ return (
+ <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
+ <Head>
+ <title>Gas Tracker</title>
+ </Head>
+ <h1> Cross-Chain Gas Price Tracker</h1>
+ <table style={{ width: '100%', border: '1px solid #ccc', marginTop: '1rem' }}>
+<thead>
+<tr>
+ <th>Chain</th>
+ <th>Gas Price (Gwei)</th>
+ </tr>
+ </thead>
+ <tbody>
+ {Object.entries(gasPrices).map(([chain, price]) => (
+ <tr key={chain}>
+ <td>{chain}</td>
+ <td>{price}</td>
+ </tr>
+ ))}
+ </tbody>
+ </table>
+ <div style={{ marginTop: '2rem' }}>
+ <h3> Wallet Simulation</h3>
+ <label>Enter amount (ETH): </label>
+ <input
+ type="number"
+ step="0.01"
+ value={amountETH}
+ onChange={(e) => setAmountETH(e.target.value)}
+ style={{ marginLeft: '10px', padding: '4px' }}
+ />
+ <table style={{ width: '100%', border: '1px solid #ccc', marginTop: '1rem' }}>
+ <thead>
+ <tr>
+ <th>Chain</th>
+ <th>Transaction Cost (USD)</th>
+ <th>Total (Txn + Amount)</th>
+ </tr>
+ </thead>
+ <tbody>
+ {Object.entries(gasPrices).map(([chain, gwei]) => {
+ const costETH = (gwei * gasLimit) / 1e9;
+ const costUSD = costETH * usdPrice;
+ const totalUSD = (parseFloat(amountETH) + costETH) * usdPrice;
+ return (
+ <tr key={chain}>
+ <td>{chain}</td>
+ <td>${costUSD.toFixed(2)}</td>
+ <td>${totalUSD.toFixed(2)}</td>
+ </tr>
+ );
+ })}
+ </tbody>
+ </table>
+ </div>
+ <div style={{ marginTop: '2rem' }}>
+ <h3> Gas Chart (Coming Soon)</h3>
+ <p>[Placeholder for candlestick chart]</p>
+</div>
+ </div>
+ );
+}
