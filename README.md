@@ -79,27 +79,7 @@ gas_tracker/
 
 🤝 Contributing
 
-Contributions are welcome! Feel free to fork the repo, submit PRs, or open issues.
-
-
----
-
-📄 License
-
-MIT License © 2025 Palaksh Rastogi
-
----
-
-### ✅ What You Should Do:
-
-1. **Copy this code** and save it as `README.md` in your project folder.
-2. Commit it to GitHub with:
-
-```bash
-git add README.md
-git commit -m "Add project README"
-git push
-
+Contributions are welcome! Feel free to fork the repo, submit PRs, or open issues
 
 CODING
 === package.json ===
